@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block title %}Book Now - Grand Palace Hotel{% endblock %}
+
+{% block content %}
+<section class="booking-page">
+    <h1>Book Your Stay</h1>
+    
+    <div class="booking-container">
+        <form method="POST" action="{{ url_for('book') }}" class="booking-form">
+            <div class="form-group">
+                <label for="checkin">Check-in Date</label>
+                <input type="date" id="checkin" name="checkin" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="checkout">Check-out Date</label>
+                <input type="date" id="checkout" name="checkout" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="guests">Number of Guests</label>
+                <select id="guests" name="guests" required>
+                    <option value="1">1 Guest</option>
+                    <option value="2">2 Guests</option>
+                    <option value="3">3 Guests</option>
+                    <option value="4">4 Guests</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="room_id">Select Room</label>
+                <select id="room_id" name="room_id" required>
+                    {% for room in rooms %}
+                        <option value="{{ room.id }}" {% if selected_room and selected_room.id == room.id %}selected{% endif %}>
+                            {{ room.name }} - ₹{{ room.price }}/night
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="guest_name">Guest Name</label>
+                <input type="text" id="guest_name" name="guest_name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="guest_email">Email</label>
+                <input type="email" id="guest_email" name="guest_email" required>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Complete Booking</button>
+        </form>
+        
+        <!-- Room Preview -->
+        {% if selected_room %}
+        <div class="room-preview">
+            <h3>Selected Room: {{ selected_room.name }}</h3>
+            <img src="{{ selected_room.image }}" alt="{{ selected_room.name }}">
+            <p class="price">₹{{ selected_room.price }}/night</p>
+            <div class="amenities">
+                {% for amenity in selected_room.amenities %}
+                    <span class="amenity">{{ amenity }}</span>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

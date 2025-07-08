@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - Grand Palace Hotel{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero" style="background-image: url('/static/images/hero.jpg'); background-size: cover; background-position: center;">
+    <div class="hero-content">
+        <h1>Welcome to <span class="highlight">Grand Palace Hotel</span></h1>
+        <p>✨ Experience luxury and comfort in the heart of the city ✨</p>
+        <a href="{{ url_for('rooms') }}" class="btn btn-primary">Explore Rooms</a>
+    </div>
+</section>
+
+<!-- Quick Booking -->
+<section class="quick-booking">
+    <h2>🛎️ Quick Booking</h2>
+    <form method="POST" action="{{ url_for('book') }}" class="quick-booking-form">
+        <input type="date" name="checkin" required>
+        <input type="date" name="checkout" required>
+        <select name="guests" required>
+            <option value="1">1 Guest</option>
+            <option value="2">2 Guests</option>
+            <option value="3">3 Guests</option>
+            <option value="4">4 Guests</option>
+        </select>
+        <select name="room_id" required>
+            {% for room in rooms %}
+                <option value="{{ room.id }}">{{ room.name }} - ₹{{ room.price }}/night</option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="btn btn-accent">Book Now</button>
+    </form>
+</section>
+
+<!-- Featured Rooms -->
+<section class="featured-rooms">
+    <h2>🏨 Featured Rooms</h2>
+    <div class="rooms-grid">
+        {% for room in rooms[:12] %}
+        <div class="room-card">
+            <img src="{{ room.image }}" alt="{{ room.name }}">
+            <div class="room-info">
+                <h3>{{ room.name }}</h3>
+                <p class="price">₹{{ room.price }}/night</p>
+                <div class="amenities">
+                    {% for amenity in room.amenities[:12] %}
+                        <span class="amenity">{{ amenity }}</span>
+                    {% endfor %}
+                </div>
+                <a href="{{ url_for('rooms') }}" class="btn btn-secondary">View Details</a>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- Hotel Features -->
+<section class="features">
+    <h2>✨ Our Amenities</h2>
+    <div class="features-grid">
+        <div class="feature">
+            <h3>🏊‍♂️ Swimming Pool</h3>
+            <p>Rooftop pool with stunning city views</p>
+        </div>
+        <div class="feature">
+            <h3>🍽️ Gourmet Restaurant</h3>
+            <p>Fine dining with world-class chefs</p>
+        </div>
+        <div class="feature">
+            <h3>💆‍♀️ Luxury Spa</h3>
+            <p>Rejuvenate with our spa and wellness services</p>
+        </div>
+        <div class="feature">
+            <h3>🚗 Free Parking</h3>
+            <p>24/7 secure valet parking available</p>
+        </div>
+    </div>
+</section>
+{% endblock %}

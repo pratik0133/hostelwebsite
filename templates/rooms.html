@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block title %}Rooms - Grand Palace Hotel{% endblock %}
+
+{% block content %}
+<section class="rooms-page">
+    <h1>Our Rooms</h1>
+    
+    <div class="rooms-grid">
+        {% for room in rooms %}
+        <div class="room-card">
+            <img src="{{ room.image }}" alt="{{ room.name }}">
+            <div class="room-info">
+                <h3>{{ room.name }}</h3>
+                <p class="price">₹{{ room.price }}<span>/night</span></p>
+                
+                <div class="amenities">
+                    {% for amenity in room.amenities %}
+                        <span class="amenity">{{ amenity }}</span>
+                    {% endfor %}
+                </div>
+                
+                <p class="description">
+                    {{ room.description if room.description else "Comfortable room with modern amenities." }}
+                </p>
+                
+                <div class="room-actions">
+                    <a href="{{ url_for('booking', room_id=room.id) }}" class="btn btn-primary">Book Now</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}
